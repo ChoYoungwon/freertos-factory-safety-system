@@ -2,7 +2,7 @@ using System;
 
 public class Calcurator
 {
-    public static void run()
+    public static void Run()
     {
         Console.WriteLine("Enter the first number: ");
         String first = Console.ReadLine();
@@ -14,20 +14,23 @@ public class Calcurator
 
         Console.WriteLine("Enter the operator: ");
         String op = Console.ReadLine();
-        if (op == "+")
+        switch (op)
         {
-            Console.WriteLine($"{num1} + {num2} = {num1 + num2}");
-        }
-        else if (op == "-")
-        {
-            Console.WriteLine($"{num1} - {num2} = {num1 - num2}");
-        }
-        else if (op == "*")
-        {
-            Console.WriteLine($"{num1} * {num2} = {num1 * num2}");
-        }
-        else if (op == "/") {
-            Console.WriteLine($"{num1} / {num2} = {num1 / num2}");
+            case "+":
+                Console.WriteLine($"{num1} + {num2} = {num1 + num2}");
+                break;
+            case "-":
+                Console.WriteLine($"{num1} - {num2} = {num1 - num2}");
+                break;
+            case "*":
+                Console.WriteLine($"{num1} * {num2} = {num1 * num2}");
+                break;
+            case "/":
+                Console.WriteLine($"{num1} / {num2} = {num1 / num2}");
+                break;
+            default:
+                Console.WriteLine($"num1 : {num1}, num2 : {num2}");
+                break;
         }
     }
 }
