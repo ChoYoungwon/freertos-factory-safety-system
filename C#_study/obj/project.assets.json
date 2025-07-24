@@ -1509,24 +1509,31 @@
     ]
   },
   "packageFolders": {
-    "/home/youngwon/.nuget/packages/": {}
+    "C:\\Users\\lka11\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/youngwon/Project/smart_manufacturing/C#_study/C#_study.csproj",
+      "projectUniqueName": "C:\\Users\\lka11\\OneDrive\\Desktop\\스마트팩토리 구현 sw\\codes\\SmartFactory_SW\\C#_study\\C#_study.csproj",
       "projectName": "C#_study",
-      "projectPath": "/home/youngwon/Project/smart_manufacturing/C#_study/C#_study.csproj",
-      "packagesPath": "/home/youngwon/.nuget/packages/",
-      "outputPath": "/home/youngwon/Project/smart_manufacturing/C#_study/obj/",
+      "projectPath": "C:\\Users\\lka11\\OneDrive\\Desktop\\스마트팩토리 구현 sw\\codes\\SmartFactory_SW\\C#_study\\C#_study.csproj",
+      "packagesPath": "C:\\Users\\lka11\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lka11\\OneDrive\\Desktop\\스마트팩토리 구현 sw\\codes\\SmartFactory_SW\\C#_study\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/youngwon/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\lka11\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1539,7 +1546,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net7.0": {
@@ -1574,7 +1587,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.410/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
