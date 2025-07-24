@@ -1,1 +1,23 @@
 .vs/
+*.suo
+*.user
+*.bak
+
+# Build and obj folders
+[Bb]in/
+[Oo]bj/
+
+# Package files
+*.nupkg
+
+# Test Results
+TestResults/
+
+# Miscellaneous
+*.log
+*.tlog
+*.lastbuildstate
+*.pdb
+*.exe
+*.dll
+*.cache
