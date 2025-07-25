@@ -73,9 +73,31 @@ namespace WinFormsApp1
             newForm.Show();
         }
 
+        // Calculator Control
         private void btnCalculator_Click(object sender, EventArgs e)
         {
             Form6 newForm = new Form6();
+            newForm.Show();
+        }
+
+        // File Write Control(StreamWriter)
+        private void btnFile_Click(object sender, EventArgs e)
+        {
+            Form7 newForm = new Form7();
+            newForm.Show();
+        }
+
+        // File Read Control(StreamReader)
+        private void btnFileRead_Click(object sender, EventArgs e)
+        {
+            Form8 newForm = new Form8();
+            newForm.Show();
+        }
+
+        // MDI(Multiple Document Interface) Control
+        private void btnMDI_Click(object sender, EventArgs e)
+        {
+            Form9 newForm = new Form9();
             newForm.Show();
         }
     }
