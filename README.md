@@ -1,20 +1,38 @@
 ### WinFormsApp 구현
 (윈폼 : 윈도우 응용프로그램을 빠르고 손쉽게 개발하기 위한 API 세트)
 
-#### Form1
-<img width="414" height="452" alt="image" src="https://github.com/user-attachments/assets/5316fc7a-ef46-4cc9-a0f1-bd09a287bba7" />
+### 파일 구조
+.
+├── ./AGauge2 (게이지(Gauge) 컨트롤)
+│   ├── ./AGauge2/AGauge2
+│   └── ./AGauge2/AGauge2.sln
 
-#### Form2(Button Control)
-<img width="399" height="437" alt="image" src="https://github.com/user-attachments/assets/f9bdaf61-b242-47ff-9dc7-8c27d21ba2bc" />
+├── ./Agauge (게이지 .cs 파일)
+│   ├── ./Agauge/AGauge.Designer.cs
+│   ├── ./Agauge/AGauge.bmp
+│   ├── ./Agauge/AGauge.cs
+│   ├── ./Agauge/AGauge.csproj
+│   ├── ./Agauge/Agauge
+│   ├── ./Agauge/Agauge.sln
+│   └── ./Agauge/Properties
 
-#### Form3(CheckBox Control)
-<img width="650" height="498" alt="image" src="https://github.com/user-attachments/assets/486fbd51-8e3e-49ec-84d0-c941df5dda07" />
+├── ./C#_study (C# 문법 공부)
+│   ├── ./C#_study/Array.cs
+│   ├── ./C#_study/C#_study.csproj
+│   ├── ./C#_study/Calcurator.cs
+│   ├── ./C#_study/Formating.cs
+│   ├── ./C#_study/Func.cs
+│   ├── ./C#_study/Program.cs
+│   ├── ./C#_study/TernaryOperator.cs
+│   ├── ./C#_study/bin
+│   └── ./C#_study/obj
+├── ./README.md
 
-#### Form4(Timer Control)
-<img width="250" height="204" alt="image" src="https://github.com/user-attachments/assets/b520593c-6367-44c6-bd53-45cee61384f2" />
+├── ./WinFormsApp1 (기본적인 윈폼)
+│   ├── ./WinFormsApp1/WinFormsApp1
+│   └── ./WinFormsApp1/WinFormsApp1.sln
 
-#### Form5(DataGrid View)
-<img width="531" height="331" alt="image" src="https://github.com/user-attachments/assets/ae1545bd-1bb1-45ee-9ce7-68f27abaa622" />
+└── ./WinFormsApp2 (윈폼 차트)
+    ├── ./WinFormsApp2/WinFormsApp2
+    └── ./WinFormsApp2/WinFormsApp2.sln
 
-#### Form6(Calculator)
-<img width="390" height="537" alt="image" src="https://github.com/user-attachments/assets/fadd7d2c-ec26-4afa-bc8b-ccde59f87340" />
