@@ -33,11 +33,17 @@
             aGauge1 = new AGauge();
             button1 = new Button();
             button2 = new Button();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             circularButton1 = new CircularButton();
             pictureBox1 = new PictureBox();
             btnTurn = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
+            progressBar1 = new ProgressBar();
+            timer = new System.Windows.Forms.Timer(components);
+            progressBar2 = new ProgressBar();
+            progressBar3 = new ProgressBar();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -140,11 +146,70 @@
             // 
             timer1.Tick += timer1_Tick;
             // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(405, 225);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(290, 41);
+            progressBar1.TabIndex = 5;
+            // 
+            // timer
+            // 
+            timer.Interval = 1000;
+            timer.Tick += timer_Tick;
+            // 
+            // progressBar2
+            // 
+            progressBar2.Location = new Point(405, 307);
+            progressBar2.Name = "progressBar2";
+            progressBar2.Size = new Size(290, 41);
+            progressBar2.TabIndex = 5;
+            // 
+            // progressBar3
+            // 
+            progressBar3.Location = new Point(405, 391);
+            progressBar3.Name = "progressBar3";
+            progressBar3.Size = new Size(290, 41);
+            progressBar3.TabIndex = 5;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(406, 202);
+            label1.Name = "label1";
+            label1.Size = new Size(95, 20);
+            label1.TabIndex = 6;
+            label1.Text = "Style=Blocks";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(406, 284);
+            label2.Name = "label2";
+            label2.Size = new Size(131, 20);
+            label2.TabIndex = 6;
+            label2.Text = "Style=Continuous";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(406, 368);
+            label3.Name = "label3";
+            label3.Size = new Size(113, 20);
+            label3.TabIndex = 6;
+            label3.Text = "Style=Marquee";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(575, 410);
+            ClientSize = new Size(793, 444);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(progressBar3);
+            Controls.Add(progressBar2);
+            Controls.Add(progressBar1);
             Controls.Add(btnTurn);
             Controls.Add(pictureBox1);
             Controls.Add(circularButton1);
@@ -153,8 +218,10 @@
             Controls.Add(aGauge1);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -162,10 +229,16 @@
         private AGauge aGauge1;
         private Button button1;
         private Button button2;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private CircularButton circularButton1;
         private PictureBox pictureBox1;
         private Button btnTurn;
         private System.Windows.Forms.Timer timer1;
+        private ProgressBar progressBar1;
+        private System.Windows.Forms.Timer timer;
+        private ProgressBar progressBar2;
+        private ProgressBar progressBar3;
+        private Label label1;
+        private Label label2;
+        private Label label3;
     }
 }

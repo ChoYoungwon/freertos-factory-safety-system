@@ -60,6 +60,7 @@ namespace WinFormsApp2
             timer.Start();
         }
 
+        // 실시간 랜덤 값 생성, 차트 표현
         private void timer1_Tick(object sender, EventArgs e)
         {
             randomValue = random.Next(0, 100);
