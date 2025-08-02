@@ -37,6 +37,9 @@
             button3 = new Button();
             DataGridView = new Button();
             btnCalculator = new Button();
+            btnFile = new Button();
+            btnFileRead = new Button();
+            btnMDI = new Button();
             SuspendLayout();
             // 
             // label1
@@ -123,11 +126,44 @@
             btnCalculator.UseVisualStyleBackColor = true;
             btnCalculator.Click += btnCalculator_Click;
             // 
+            // btnFile
+            // 
+            btnFile.Location = new Point(12, 311);
+            btnFile.Name = "btnFile";
+            btnFile.Size = new Size(386, 40);
+            btnFile.TabIndex = 4;
+            btnFile.Text = "File Write";
+            btnFile.UseVisualStyleBackColor = true;
+            btnFile.Click += btnFile_Click;
+            // 
+            // btnFileRead
+            // 
+            btnFileRead.Location = new Point(12, 369);
+            btnFileRead.Name = "btnFileRead";
+            btnFileRead.Size = new Size(386, 40);
+            btnFileRead.TabIndex = 4;
+            btnFileRead.Text = "File Read";
+            btnFileRead.UseVisualStyleBackColor = true;
+            btnFileRead.Click += btnFileRead_Click;
+            // 
+            // btnMDI
+            // 
+            btnMDI.Location = new Point(12, 430);
+            btnMDI.Name = "btnMDI";
+            btnMDI.Size = new Size(386, 40);
+            btnMDI.TabIndex = 4;
+            btnMDI.Text = "Multiple Document Interface";
+            btnMDI.UseVisualStyleBackColor = true;
+            btnMDI.Click += btnMDI_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(412, 418);
+            ClientSize = new Size(412, 495);
+            Controls.Add(btnMDI);
+            Controls.Add(btnFileRead);
+            Controls.Add(btnFile);
             Controls.Add(btnCalculator);
             Controls.Add(DataGridView);
             Controls.Add(button3);
@@ -156,5 +192,8 @@
         private Button button3;
         private Button DataGridView;
         private Button btnCalculator;
+        private Button btnFile;
+        private Button btnFileRead;
+        private Button btnMDI;
     }
 }
