@@ -1,9 +1,12 @@
-// #include <Servo.h>
-// Servo myservo;
-// int val; 
+// #include <Stepper.h>
+
+
+// const int steps = 2048;
+// Stepper myStepper(steps, 11, 9, 10, 8);
+// int val = 0;
 // void setup() {
-//    Serial.begin(9600);
-//     myservo.attach(9);
+//   myStepper.setSpeed(10);
+//   Serial.begin(9600);
 // }
 
 // void loop() {
@@ -13,7 +16,8 @@
 //     receivedStr = Serial.readStringUntil('\n');
 //     val = receivedStr.toInt();
 //     Serial.println(val);
-//     myservo.write(val);
-//     delay(15);
+//     myStepper.step(val);
 //   }
+//   val = 0;
+//   delay(300);
 // }

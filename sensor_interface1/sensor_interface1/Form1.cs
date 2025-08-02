@@ -72,6 +72,34 @@ namespace sensor_interface1
             form7.Show();
         }
 
+        private void btnStepping_Click(object sender, EventArgs e)
+        {
+            port.Close();
+            Form8 form8 = new Form8();
+            form8.Show();
+        }
+
+        private void btnBuzzer_Click(object sender, EventArgs e)
+        {
+            port.Close();
+            Form9 form9 = new Form9();
+            form9.Show();
+        }
+
+        private void btn_variable_Click(object sender, EventArgs e)
+        {
+            port.Close();
+            Form10 form10 = new Form10();
+            form10.Show();
+        }
+
+        private void btnTemperature_Click(object sender, EventArgs e)
+        {
+            port.Close();
+            Form11 form11 = new Form11();
+            form11.Show();
+        }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             port.Close();

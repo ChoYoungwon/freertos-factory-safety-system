@@ -36,6 +36,10 @@
             btn_joystic = new Button();
             btnPhotoresistor = new Button();
             btnMotor = new Button();
+            btnStepping = new Button();
+            btnBuzzer = new Button();
+            btn_variable = new Button();
+            btnTemperature = new Button();
             SuspendLayout();
             // 
             // btnOn
@@ -120,18 +124,66 @@
             btnMotor.Name = "btnMotor";
             btnMotor.Size = new Size(289, 44);
             btnMotor.TabIndex = 1;
-            btnMotor.Text = "모터 제어";
+            btnMotor.Text = "서보모터 제어";
             btnMotor.UseVisualStyleBackColor = true;
             btnMotor.Click += btnMotor_Click;
+            // 
+            // btnStepping
+            // 
+            btnStepping.Font = new Font("굴림", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btnStepping.Location = new Point(317, 197);
+            btnStepping.Name = "btnStepping";
+            btnStepping.Size = new Size(289, 44);
+            btnStepping.TabIndex = 1;
+            btnStepping.Text = "스태핑모터 제어";
+            btnStepping.UseVisualStyleBackColor = true;
+            btnStepping.Click += btnStepping_Click;
+            // 
+            // btnBuzzer
+            // 
+            btnBuzzer.Font = new Font("굴림", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btnBuzzer.Location = new Point(317, 270);
+            btnBuzzer.Name = "btnBuzzer";
+            btnBuzzer.Size = new Size(289, 44);
+            btnBuzzer.TabIndex = 1;
+            btnBuzzer.Text = "부저 제어";
+            btnBuzzer.UseVisualStyleBackColor = true;
+            btnBuzzer.Click += btnBuzzer_Click;
+            // 
+            // btn_variable
+            // 
+            btn_variable.Font = new Font("굴림", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btn_variable.Location = new Point(624, 66);
+            btn_variable.Name = "btn_variable";
+            btn_variable.Size = new Size(289, 44);
+            btn_variable.TabIndex = 1;
+            btn_variable.Text = "가변 저항 Agauge";
+            btn_variable.UseVisualStyleBackColor = true;
+            btn_variable.Click += btn_variable_Click;
+            // 
+            // btnTemperature
+            // 
+            btnTemperature.Font = new Font("굴림", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btnTemperature.Location = new Point(624, 134);
+            btnTemperature.Name = "btnTemperature";
+            btnTemperature.Size = new Size(289, 44);
+            btnTemperature.TabIndex = 1;
+            btnTemperature.Text = "온도 데이터 그래프";
+            btnTemperature.UseVisualStyleBackColor = true;
+            btnTemperature.Click += btnTemperature_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(627, 345);
+            ClientSize = new Size(927, 345);
             Controls.Add(btn_joystic);
             Controls.Add(btnRGB);
             Controls.Add(btn_LCD);
+            Controls.Add(btnTemperature);
+            Controls.Add(btn_variable);
+            Controls.Add(btnBuzzer);
+            Controls.Add(btnStepping);
             Controls.Add(btnMotor);
             Controls.Add(btnPhotoresistor);
             Controls.Add(button1);
@@ -154,5 +206,9 @@
         private Button btn_joystic;
         private Button btnPhotoresistor;
         private Button btnMotor;
+        private Button btnStepping;
+        private Button btnBuzzer;
+        private Button btn_variable;
+        private Button btnTemperature;
     }
 }
