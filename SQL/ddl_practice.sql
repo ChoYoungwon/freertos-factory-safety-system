@@ -43,6 +43,35 @@ ALTER TABLE newbook MODIFY bookname VARCHAR(20) NULL;
 ALTER TABLE newbook MODIFY bookname VARCHAR(20) NOT NULL;
 
 # NewBook 테이블의 bookid 속성을 기본키로 변경
-ALTER TABLE newbook ADD PRIMARY KEY(bookid);
+# ALTER TABLE newbook ADD PRIMARY KEY(bookid);
 
+# NewBook 테이블 삭제
+DROP TABLE newcustomer;
+DROP TABLE neworders;
+DROP TABLE newbook;
 
+SELECT * FROM book;
+SELECT * FROM imported_book;
+
+# book 테이블에 투플 삽입
+INSERT INTO book(bookid, bookname, publisher, price) VALUES (11, '스포츠 의학', '한솔의학서적', 90000);
+
+# book 테이블에 투플 삽입(가격 미정)
+INSERT INTO book(bookid, bookname, publisher) VALUES (14, '스포츠 의학', '한솔의학서적');
+
+# 수입 도서 목록을 Book 테이블에 삽입
+INSERT INTO book(bookid, bookname, price, publisher) SELECT bookid, bookname, price, publisher FROM imported_book;
+
+select * FROM customer;
+
+# Customer 테이블에서 고객번호가 5인 고객의 주소를 '대한민국 부산'으로 변경
+UPDATE customer SET address = '대한민국 부산' WHERE custid = 5;
+
+# book 테이블에서 14번 스포츠 의학의 출판사를 imported_book 테이블에 있는 21번 책의 출판사와 동일하게 변경
+UPDATE book SET publisher = (SELECT publisher FROM imported_book WHERE bookid = 21) WHERE bookid = 14;
+
+# book 테이블에서 도서 번호가 11인 도서를 삭제
+DELETE FROM book WHERE bookid = 11;
+
+# 모든 고객을 삭제
+DELETE FROM customer;
