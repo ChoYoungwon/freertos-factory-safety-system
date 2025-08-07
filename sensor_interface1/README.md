@@ -1,5 +1,6 @@
 ## Form1 (LED ON/OFF, 메인 화면)  
-<img width="627" height="380" alt="image" src="https://github.com/user-attachments/assets/84a71dc2-06b7-4510-b9a9-445351bec1bf" />  
+<img width="928" height="383" alt="image" src="https://github.com/user-attachments/assets/3809c8b2-ab38-4010-8f79-cae396f9af92" />  
+
 
 - 아두이노에서 해당 코드를 업로드 한 이후 실행  
 - 아두이노 코드 : `arduino_interface.ino`  
@@ -55,3 +56,33 @@
 - `receivedStr = Serial.readStringUntil('\n');`  
 - `val = receivedStr.toInt();`  
 - 아두이노가 \n을 기다리므로 \n을 추가  
+  
+## Form8 (스테핑 모터 제어하기)  
+<img width="769" height="411" alt="image" src="https://github.com/user-attachments/assets/89ab672e-afe5-44fd-a896-74797eecf959" />  
+  
+- 아두이노 코드 : `steppingmotor_control.ino`  
+- Form7을 상속받음  
+- 텍스트 : 스텝수, 반복 간격 : 타이머 인터벌 간격  
+- 타이머 동작시 gif 파일 사용해 돌아가도록 설정(구현x)  
+  
+## Form9 (부저에게 특정음계 보내기)  
+<img width="410" height="403" alt="image" src="https://github.com/user-attachments/assets/61da1201-744d-4d8b-ad33-bd20d3ca023c" />  
+  
+- 아두이노 코드 : `buzzer_control.ino`  
+- Form3을 상속받음  
+- 해당 주파수의 음 발생  
+  
+## Form10 (가변저항 Agauge로 표현하기) 
+<img width="760" height="344" alt="image" src="https://github.com/user-attachments/assets/856ef9a5-191f-4b2a-97fc-6d49af2b3ecc" />  
+  
+- 아두이노 코드 : `variable_resistor_control.ino`  
+- Form2를 상속받음  
+- 데이터 수신시 해당 값 만큼 agauge의 value를 조절  
+  
+## Form11 (온습도 그래프로 표현하기)  
+<img width="854" height="431" alt="image" src="https://github.com/user-attachments/assets/a3d390be-1a81-4743-a8bb-3cb55f9d2957" />  
+  
+- 아두이노 코드 : `temperature_control.ino`  
+- Form2를 상속받음  
+- ','를 기준으로 온도, 습도로 분리, Series1 : 온도 그래프, Series2 : 습도 그래프  
+  
