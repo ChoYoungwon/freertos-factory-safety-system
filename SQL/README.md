@@ -11,6 +11,6 @@
 ---  
 5. `dml_practice3.sql` : 뷰, 인덱스, 프로시저(프로세스를 절차적으로 기술), 트리거  
 ---  
-6. `ddl_practice.sql' : create, insert, update, drop, delete  
+6. `ddl_practice.sql` : create, insert, update, drop, delete  
 ---  
 7. `chart_create_query.sql` : 차트 테이블 생성, 수정, 삭제  
