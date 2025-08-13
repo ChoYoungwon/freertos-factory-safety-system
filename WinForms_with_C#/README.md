@@ -1,4 +1,5 @@
 ### DBconn.cs  
+- Nuget에서 Mysql.Data 설치
 - 생성자 : `DBconn()` 또는 `DBconn(ip, port, database, userid, password)`  
 - `public void MadangDbConn()` : madangDB 연결 파라미터 적용  
 - `public MySqlConnection SetConnection()` : 데이터베이스 연결
