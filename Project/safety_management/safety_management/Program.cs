@@ -11,7 +11,14 @@ namespace safety_management
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            using (Form3 loginForm = new Form3())
+            {
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    // 로그인 성공 시에만 Form1을 생성하고 애플리케이션을 실행
+                    Application.Run(new Form1());
+                }
+            }
         }
     }
 }
