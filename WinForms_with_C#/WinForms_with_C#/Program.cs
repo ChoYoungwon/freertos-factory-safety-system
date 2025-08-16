@@ -15,8 +15,8 @@ namespace WinForms_with_C_
             ApplicationConfiguration.Initialize();
             //Application.Run(new Form1());   // customer 관리 폼
             //Application.Run(new Form2());   // 주문 관리 폼    
-            //Application.Run(new Form4());   // 로그인 & 회원가입 폼 실행
-            Application.Run(new Form5());     // 그래프 폼        
+            Application.Run(new Form4());   // 로그인 & 회원가입 폼 실행
+            //Application.Run(new Form5());     // 그래프 폼        
         }
     }
 }

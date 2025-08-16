@@ -1,87 +1,23 @@
-﻿using MySql.Data.MySqlClient;
-using safety_management;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using System.Security.Cryptography;
 
 namespace safety_management
 {
     public partial class Form3 : Form
     {
-        private MySqlConnection conn = null;
+        MySqlConnection connection = null;
         public Form3()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // 자동으로 객체 리소스 정리(dispose)
-            using (Form2 form = new Form2())
-            {
-                // 폼을 열면 원래 있던 부모 폼을 선택하거나 조작할 수 없음
-                form.ShowDialog();
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string id = tbx_ID.Text;
-                string password = tbx_password.Text;
-
-                if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(password))
-                {
-                    MessageBox.Show("아이디와 비밀번호는 필수 항목입니다.");
-                    return;
-                }
-
-                string storedHash = null;
-                string storedSalt = null;
-
-                string query = "SELECT password, salt FROM user WHERE id = @id";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", id);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        storedHash = reader["password"].ToString();
-                        storedSalt = reader["salt"].ToString();
-                    }
-                }
-
-                if (storedHash != null && storedSalt != null)
-                {
-                    if (VerifyPassword(password, storedHash, storedSalt))
-                    {
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("로그인 실패");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("아이디가 존재하지 않습니다.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -90,35 +26,105 @@ namespace safety_management
             {
                 DBconn db = new DBconn();
                 db.MadangDbConn();
-                conn = db.SetConnection();
+                connection = db.SetConnection();
+                string query = @"
+                    create table if not exists user(
+                        id varchar(32) primary key,
+                        password varchar(88) not null,
+                        salt varchar(24) not null,
+                        name varchar(32) not null,
+                        birth date,
+                        phone varchar(20)
+                    );";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                // 반환값을 체크하지 않고 실행
+                cmd.ExecuteNonQuery();
+
+                //MessageBox.Show("User table is ready.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error: {ex.Message}");
+                MessageBox.Show($"초기화 오류 : {ex}");
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string id = tbx_ID.Text;
+            string password = tbx_password.Text;
+            string name = tbx_name.Text;
+            string birth = dateTimePicker1.Text;
+            string phone = tbx_phone.Text;
+
+            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("아이디, 비밀번호, 이름은 필수 항목입니다.");
+                return;
+            }
+
+            try
+            {
+                var (hashedPassword, salt) = HashPassword(password);
+
+                string query = @"
+                    insert into user (id, password, name, birth, phone, salt)
+                    values (@id, @pw, @name, @birth, @phone, @salt);          
+                ";
+
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@pw", hashedPassword);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@birth", birth);
+                cmd.Parameters.AddWithValue("@phone", phone);
+                cmd.Parameters.AddWithValue("@salt", salt);
+
+                if (cmd.ExecuteNonQuery() != 1)
+                {
+                    MessageBox.Show($"{name}님 계정 등록 실패");
+                }
+                else
+                {
+                    MessageBox.Show("등록 성공");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error : {ex}");
             }
         }
 
-        private bool VerifyPassword(string password, string storedHash, string storedSalt)
+        public (string hash, string salt) HashPassword(string password)
         {
-            // db에 저장된 솔트(Base64)를 바이트 배열로 변환
-            byte[] saltBytes = Convert.FromBase64String(storedSalt);
+            // 솔트 생성 (16바이트 크기의 암호학적으로 안전한 난수)
+            byte[] saltBytes = RandomNumberGenerator.GetBytes(16);
 
-            // db에 저장된 해시(Base64)를 바이트 배열로 변환
-            byte[] storedHashBytes = Convert.FromBase64String(storedHash);
-
-            // 동일한 방식으로 해시 생성
+            // PBKDF2를 사용하여 비밀번호 해시 (SHA-256 알고리즘 사용, 10만번 반복)
+            // Key-Stretching으로 무차별 대입 공격 방비
             var pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, 100000, HashAlgorithmName.SHA256);
-            byte[] newHashBytes = pbkdf2.GetBytes(32);
+            byte[] hashBytes = pbkdf2.GetBytes(32);
 
-            // 두 해시 바이트 배열을 비교
-            return CryptographicOperations.FixedTimeEquals(storedHashBytes, newHashBytes);
+            // 솔트와 해시를 Base64 문자열로 변환하여 반환
+            return (Convert.ToBase64String(hashBytes), Convert.ToBase64String(saltBytes));
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            tbx_ID.Text = string.Empty;
+            tbx_password.Text = string.Empty;
+            tbx_name.Text = string.Empty;
+            dateTimePicker1.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            tbx_phone.Text = string.Empty;
         }
 
         private void Form3_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (conn != null && conn.State == System.Data.ConnectionState.Open)
+            if (connection != null && connection.State == System.Data.ConnectionState.Open)
             {
-                conn.Close();
+                connection.Close();
             }
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace safety_management
-{
+{ 
     internal class DBconn
     {
         public string Ip { get; set; }
