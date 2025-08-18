@@ -6,7 +6,20 @@
 5. WinFormsApp과 MySQL을 이용한 데이터베이스 제어  
 6. WPF 개요 및 간단한 예제 학습  
 7. 프로젝트 진행  
-  
+### 레포지터리 하위 구조   
+.  
+├── ./`AGauge2 (게이지(Gauge) 컨트롤)`  
+├── ./`Agauge (게이지 .cs 라이브러리 파일)`  
+├── ./`ArduinoCodes (아두이노 예제)`  
+├── ./`C#_study (C# 문법 공부)`  
+├── ./`Project (실시간 안전관리 시스템 프로젝트)`  
+├── ./`SQL (SQL 예제 및 문법 정리)`  
+├── ./`SmartFactory_SW/ArduinoCodes (Arduino IDE Sketchbook location)`  
+├── ./`WPFapplication (WPF 간단한 예제, 연습)`  
+├── ./`WinFormsApp1 (기본적인 윈폼)`  
+└── ./`WinFormsApp2 (윈폼 차트)`  
+├── ./`WinForms_with_C# (윈폼과 MySQL 연결)`  
+├── ./`sensor_interface1 (SerialPort 상호작용을 이용한 윈폼에서의 아두이노 제어)`  
 ### 프로젝트 주제 : 실시간 안전 관리 시스템   
 #### 수행 기간  
 2025.08.11. ~ 2025.08.13  
@@ -66,20 +79,3 @@ Flame감지 작동 모습
 - https://tutoduino.fr/en/discover-freertos-on-an-esp32-with-platformio/#google_vignette (ESP32 freeRTOS 개발 환경 구축, PlatformIO 사용 방법)  
 -  정소미, 「화학공정산업의 스마트 팩토리 안전관리 시스템 구축에 관한 연구 아시아대학교 공학대학원, 2019  
 - 최선영, 「스마트 안전관리 시스템」, 『현장기술소개』, 쌍용건설, pp. 94-97.   
-    
-### 레포지터리 하위 구조   
-.  
-├── ./`AGauge2 (게이지(Gauge) 컨트롤)`  
-├── ./`Agauge (게이지 .cs 라이브러리 파일)`  
-├── ./`ArduinoCodes (아두이노 예제)`  
-├── ./`C#_study (C# 문법 공부)`  
-├── ./`Project (실시간 안전관리 시스템 프로젝트)`  
-├── ./`SQL (SQL 예제 및 문법 정리)`  
-├── ./`SmartFactory_SW/ArduinoCodes (Arduino IDE Sketchbook location)`  
-├── ./`WPFapplication (WPF 간단한 예제, 연습)`  
-├── ./`WinFormsApp1 (기본적인 윈폼)`  
-└── ./`WinFormsApp2 (윈폼 차트)`  
-├── ./`WinForms_with_C# (윈폼과 MySQL 연결)`  
-├── ./`sensor_interface1 (SerialPort 상호작용을 이용한 윈폼에서의 아두이노 제어)`  
-  
-
