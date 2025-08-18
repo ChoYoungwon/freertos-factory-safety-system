@@ -38,8 +38,8 @@ Winform(C#) 기반 상태 모니터링 및 동작 제어 GUI 프로그램 개발
 목표로 함  
   
 2. 개발환경  
-ESP32-DevKitC V4 개발보드 (ESP32-WROOM-32E 모듈 기반, 32bit dual-core @240MHz, 2.4GHz, 520KB SRAM(16 KB for cache), 448 KB ROM)  
-/ VsCode(PlatformIO) / MySQL / WinForm(.NET 8.0) / Visual Studio / Window 11 Home intel Core i5 프로세서, 8GB RAM  
+ESP32-DevKitC V4 개발보드 (ESP32-WROOM-32E 모듈 기반, 32bit dual-core @240MHz, 2.4GHz, 520KB SRAM(16 KB for cache), 448 KB  
+ROM)/ VsCode(PlatformIO) / MySQL / WinForm(.NET 8.0) / Visual Studio / Window 11 Home intel Core i5 프로세서, 8GB RAM  
   
 5. 주요 기능   
 - 회원가입, 로그인 후 시스템 접근 가능  
