@@ -29,6 +29,7 @@ Winform(C#) 기반 상태 모니터링 및 동작 제어 GUI 프로그램 개발
 - MySQL을 이용한 사용자 정보 저장 후 사용  
 #### 구성도  
 <img width="701" height="433" alt="시스템 아키텍처 다이어그램 drawio" src="https://github.com/user-attachments/assets/59880cf6-5115-40ea-b1f2-ac9d4878137b" />  
+  
 #### 상세 내용  
 1. 목적  
  RTOS 운영체제를 적용하여 화재와 같은 긴급 상황 발생 시 즉각적으로 경고를   
@@ -52,8 +53,10 @@ ESP32-DevKitC V4 개발보드 (ESP32-WROOM-32E 모듈 기반, 32bit dual-core @2
 ##### GUI  
 Main  
 <img width="1031" height="590" alt="main1" src="https://github.com/user-attachments/assets/da50922e-09ee-4959-9419-63e86ccdbc59" />
+  
 Flame감지 작동 모습  
 <img width="1031" height="586" alt="flame2" src="https://github.com/user-attachments/assets/61e62127-3fad-4a0b-af50-96788d5dc36a" />  
+  
 ##### 하드웨어 구현 모습  
 ![hardware_image](https://github.com/user-attachments/assets/eab0c1c9-a1de-44b6-9518-db74f2150e6f)  
   
