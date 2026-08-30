@@ -19,6 +19,7 @@ volatile bool stop_flag = false;
 bool flame_flag = false;
 volatile bool button_pressed = false;
 volatile unsigned long last_interrupt_time = 0;
+volatile unsigned long t_press = 0;
 
 void command_task(void *pvParameter);
 
@@ -29,6 +30,7 @@ void IRAM_ATTR button_isr()
   unsigned long current_time = millis();
   if (current_time - last_interrupt_time > 250) { // 250ms 디바운스
     button_pressed = true;
+    t_press = micros(); // 시작 시간 기록 
     last_interrupt_time = current_time;
   }
 }
@@ -56,6 +58,10 @@ void dht_task(void *pvParameter)
     } else {
       Serial.printf("%.1f,%.1f\n", humidity, temperature);
     }
+
+    UBaseType_t stack_margin = uxTaskGetStackHighWaterMark(NULL); 
+    uint32_t free_heap = ESP.getFreeHeap();
+    Serial.printf("[DHT Task] Stack Margin: %d bytes | System Free Heap: %d bytes\n", stack_margin, free_heap);
 
     vTaskDelay(2000 / portTICK_PERIOD_MS);    // 2초마다 센서 값 읽기
   }
@@ -144,6 +150,14 @@ void command_task(void *pvParameter) {
         stop_flag = true;
         Serial.println("emergency_stop");
         digitalWrite(LED_PIN, HIGH);
+
+        unsigned long t_led = micros(); // 완료 시간 기록
+        float latency_ms = (t_led - t_press) / 1000.0;
+        Serial.printf("[RTOS Interrupt+Task] Button Latency: %.3f ms\n", latency_ms);
+        
+        UBaseType_t stack_margin = uxTaskGetStackHighWaterMark(NULL); 
+        uint32_t free_heap = ESP.getFreeHeap();
+        Serial.printf("[DHT Task] Stack Margin: %d bytes | System Free Heap: %d bytes\n", stack_margin, free_heap);
       }
     }
 
@@ -172,7 +186,7 @@ void command_task(void *pvParameter) {
       }
     }
 
-    vTaskDelay(50 / portTICK_PERIOD_MS); // 50ms 마다 검사
+    vTaskDelay(20 / portTICK_PERIOD_MS); // 20ms 마다 검사
   }
 }
 

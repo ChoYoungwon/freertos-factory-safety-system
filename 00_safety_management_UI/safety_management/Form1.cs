@@ -114,6 +114,21 @@ namespace safety_management
         // 읽은 데이터를 처리하는 로직
         private void ProcessReceivedData(string rxd)
         {
+            // 만약 Button Latency 결과 문자열이 들어오면 파일에 저장
+            if (rxd.Contains("Button Latency"))
+            {
+                try
+                {
+                    string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "latency_results.txt");
+                    string logText = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {rxd}\r\n";
+                    System.IO.File.AppendAllText(logPath, logText, System.Text.Encoding.UTF8);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("파일 저장 실패: " + ex.Message);
+                }
+            }
+
             // emergency_stop 메시지 처리
             if (rxd == "emergency_stop" && stop_state == false)
             {
