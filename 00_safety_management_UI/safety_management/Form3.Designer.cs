@@ -46,7 +46,7 @@
             // label1
             // 
             label1.Dock = DockStyle.Top;
-            label1.Font = new Font("굴림", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label1.Font = new Font("Gulim", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
             label1.Size = new Size(376, 53);
@@ -104,7 +104,7 @@
             button1.Location = new Point(74, 276);
             button1.Name = "button1";
             button1.Size = new Size(100, 50);
-            button1.TabIndex = 3;
+            button1.TabIndex = 5;
             button1.Text = "회원가입";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -114,7 +114,7 @@
             button2.Location = new Point(194, 276);
             button2.Name = "button2";
             button2.Size = new Size(100, 50);
-            button2.TabIndex = 4;
+            button2.TabIndex = 6;
             button2.Text = "초기화";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
@@ -124,28 +124,28 @@
             tbx_phone.Location = new Point(169, 226);
             tbx_phone.Name = "tbx_phone";
             tbx_phone.Size = new Size(125, 27);
-            tbx_phone.TabIndex = 5;
+            tbx_phone.TabIndex = 4;
             // 
             // tbx_name
             // 
             tbx_name.Location = new Point(169, 146);
             tbx_name.Name = "tbx_name";
             tbx_name.Size = new Size(125, 27);
-            tbx_name.TabIndex = 6;
+            tbx_name.TabIndex = 2;
             // 
             // tbx_password
             // 
             tbx_password.Location = new Point(169, 106);
             tbx_password.Name = "tbx_password";
             tbx_password.Size = new Size(125, 27);
-            tbx_password.TabIndex = 7;
+            tbx_password.TabIndex = 1;
             // 
             // tbx_ID
             // 
             tbx_ID.Location = new Point(169, 68);
             tbx_ID.Name = "tbx_ID";
             tbx_ID.Size = new Size(125, 27);
-            tbx_ID.TabIndex = 8;
+            tbx_ID.TabIndex = 0;
             // 
             // dateTimePicker1
             // 
@@ -153,7 +153,7 @@
             dateTimePicker1.Location = new Point(169, 187);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(125, 27);
-            dateTimePicker1.TabIndex = 9;
+            dateTimePicker1.TabIndex = 3;
             // 
             // Form3
             // 

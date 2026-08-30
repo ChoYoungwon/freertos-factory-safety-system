@@ -11,53 +11,43 @@
 #define DHT_PIN 4
 #define DHT_TYPE DHT11
 #define FLAME_PIN 34
+#define FLAME_TEST_PIN 32
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
-bool stop_flag = false;
+volatile bool stop_flag = false;
 bool flame_flag = false;
-int flame_count = 0;
+volatile bool button_pressed = false;
+volatile unsigned long last_interrupt_time = 0;
 
-void button_task(void *pvParameter)
+void command_task(void *pvParameter);
+
+// 비상 정지 감지 Task
+// 1. 버튼 인터럽트 서비스 루틴 (하드웨어 선점)
+void IRAM_ATTR button_isr()
 {
-  Serial.println("Button Task start");
-
-  while(1) {
-    int buttonState = digitalRead(BUTTON_PIN);
-
-    if (buttonState == LOW && stop_flag == false) {
-      stop_flag = true;
-      Serial.println("emergency_stop");
-    } 
-
-    if (Serial.available()) {
-      String command = Serial.readStringUntil('\n');
-      command.trim();
-      Serial.println(command);
-      if (command == "recover") {
-        stop_flag = false;
-      }
-      
-      if (command == "stop") {
-        stop_flag = true;
-      }
-    }
-
-    if (stop_flag == true) {
-      digitalWrite(LED_PIN, HIGH);
-    } else {
-      digitalWrite(LED_PIN, LOW);
-    }
-    // Serial.println(stop_flag);
-    vTaskDelay(20 / portTICK_PERIOD_MS);
+  unsigned long current_time = millis();
+  if (current_time - last_interrupt_time > 250) { // 250ms 디바운스
+    button_pressed = true;
+    last_interrupt_time = current_time;
   }
 }
 
+// 온습도 감지 Task
 void dht_task(void *pvParameter)
 {
   Serial.println("DHT11 Task start");
-
   while(1) {
+    // 정지 상태일 때 dht Task를 종료시킨다.
+    if (stop_flag == true) {
+      Serial.println("DHT11 Task End by emergency stop");
+      vTaskDelete(NULL);
+    }
+    // 화염 상태일 때 dht Task를 종료시킨다.
+    if (flame_flag == true) {
+      Serial.println("DHT11 Task End by flame");
+      vTaskDelete(NULL);
+    }
     float humidity = dht.readHumidity();
     float temperature = dht.readTemperature();
 
@@ -71,28 +61,118 @@ void dht_task(void *pvParameter)
   }
 }
 
-void flame_task(void *pvParameter) {
-  Serial.println("Flame Task start");
+// 화재 감지 Task
+// void flame_task(void *pvParameter) {
+//   Serial.println("Flame Task start");
+//   int lastFlameState = HIGH;
+//   int flame_count = 0;
+//   while(1) {
+//     // 정지 상태일 때는 Task를 종료시킨다.
+//     if (stop_flag == true) {
+//       Serial.println("Flame Task End by emergency stop");
+//       vTaskDelete(NULL);
+//     }
+//     int infrared_value = analogRead(FLAME_PIN);
+
+//     if (infrared_value < 4000 && flame_flag == false) {
+//       Serial.println("flame");
+//       flame_flag = true;
+//     }
+
+//     if (infrared_value == 4095 && flame_flag == true) {
+//       flame_count++;
+//     }
+
+//     if (infrared_value == 4095 && flame_count > 50) {
+//       flame_flag = false;
+//       flame_count = 0;
+//       Serial.println("noflame");
+
+//       // 멈추었던 dht task를 다시 실행한다.
+//       xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, NULL);
+//     }
+
+//     vTaskDelay(200 / portTICK_PERIOD_MS); // 0.2초마다 센서값 읽기
+//   }
+// }
+
+// 화재 감지 Task Test버전 (버튼으로 구현)
+void flame_task_test(void *pvParameter){
+  Serial.println("flame Task start");
+  int lastFlameState = HIGH;
+  int flame_count = 0;
+
   while(1) {
-    int infrared_value = analogRead(FLAME_PIN);
+    // 정지 상태시 Task를 종료시킨다.
+    if (stop_flag == true) {
+      Serial.println("Flame Task End by emergency stop");
+      vTaskDelete(NULL);
+    }
+    int FlameState = digitalRead(FLAME_TEST_PIN);
 
-    if (infrared_value < 4000 && flame_flag == false) {
-      Serial.println("flame");
-      stop_flag = true;
+    // 엣지만 감지 (HIGH -> LOW로 바뀌는 순간만 포착)
+    if (lastFlameState == HIGH && FlameState == LOW) {
       flame_flag = true;
+      Serial.println("flame");
     }
+    lastFlameState = FlameState; 
 
-    if (infrared_value == 4095 && flame_flag == true) {
-      flame_count++;
-    }
+    if (flame_flag) flame_count++;
 
-    if (infrared_value == 4095 && flame_count > 10) {
+    if (flame_flag == true && flame_count > 50) {
       flame_flag = false;
       flame_count = 0;
       Serial.println("noflame");
+
+      // 멈추었던 dht task를 다시 실행한다.
+      xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, NULL);
     }
 
-    vTaskDelay(500 / portTICK_PERIOD_MS); // 0.5초마다 센서값 읽기
+    vTaskDelay(200 / portTICK_PERIOD_MS); // 0.2초마다 센서값 읽기
+  }
+}
+
+
+// 설비 재개 감지 코드
+// 시리얼 및 인터럽트 명령 처리 태스크
+void command_task(void *pvParameter) {
+  while (1) {
+    // 1. 물리 버튼 인터럽트 발생 처리
+    if (button_pressed) {
+      button_pressed = false;
+      if (stop_flag == false) {
+        stop_flag = true;
+        Serial.println("emergency_stop");
+        digitalWrite(LED_PIN, HIGH);
+      }
+    }
+
+    // 2. 시리얼 명령어 처리 (UI 연동)
+    if (Serial.available()) {
+      String command = Serial.readStringUntil('\n');
+      command.trim();
+      Serial.println(command); // 에코백
+
+      if (command == "stop") {
+        if (stop_flag == false) {
+          stop_flag = true;
+          Serial.println("emergency_stop");
+          digitalWrite(LED_PIN, HIGH);
+        }
+      }
+      else if (command == "recover") {
+        if (stop_flag == true) {
+          stop_flag = false;
+          digitalWrite(LED_PIN, LOW);
+          
+          // 센서 및 기능 태스크 재동작
+          xTaskCreate(&flame_task_test, "Flame Task", 2048, NULL, 7, NULL);
+          xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, NULL);
+        }
+      }
+    }
+
+    vTaskDelay(50 / portTICK_PERIOD_MS); // 50ms 마다 검사
   }
 }
 
@@ -103,16 +183,17 @@ void setup()
 
     pinMode(LED_PIN, OUTPUT);
     pinMode(BUTTON_PIN, INPUT_PULLUP);
+    pinMode(FLAME_TEST_PIN, INPUT_PULLUP);
     analogSetAttenuation(ADC_11db);
-
     dht.begin();
     
-    xTaskCreate(&flame_task, "Flame Task", 2048, NULL, 5, NULL);
-    xTaskCreate(&button_task, "Button Task", 2048, NULL, 7, NULL);
-    xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 3, NULL);
+    // Falling Edge 인터럽트 등록 (HIGH -> LOW 누름 시 트리거)
+    attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), button_isr, FALLING);
 
-    Serial.println("Button Task running\n");
-    Serial.println("DHT Task running\n");
+    // 태스크 생성 (명령어 처리 태스크 추가)
+    xTaskCreate(&command_task, "Command Task", 2048, NULL, 8, NULL);
+    xTaskCreate(&flame_task_test, "Flame Task", 2048, NULL, 7, NULL);
+    xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, NULL);
 }
 
 void loop() {

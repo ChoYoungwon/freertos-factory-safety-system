@@ -1,4 +1,4 @@
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace safety_management
 {
@@ -13,13 +13,13 @@ namespace safety_management
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            // ·Î±×ÀÎ ¼º°ø ½Ã¿¡¸¸ Form1À» »ı¼ºÇÏ°í ¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀ» ½ÇÇà
+            // ë¡œê·¸ì¸ ì„±ê³µ ì‹œì—ë§Œ Form1ì„ ìƒì„±í•˜ê³  ì• í”Œë¦¬ì¼€ì´ì…˜ì„ ì‹¤í–‰
             //Application.Run(new Form1());
             using (Form4 loginForm = new Form4())
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    // ·Î±×ÀÎ ¼º°ø ½Ã¿¡¸¸ Form1À» »ı¼ºÇÏ°í ¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀ» ½ÇÇà
+                    // ë¡œê·¸ì¸ ì„±ê³µ ì‹œì—ë§Œ Form1ì„ ìƒì„±í•˜ê³  ì• í”Œë¦¬ì¼€ì´ì…˜ì„ ì‹¤í–‰
                     Application.Run(new Form1());
                 }
             }

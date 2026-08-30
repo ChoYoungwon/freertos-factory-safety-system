@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +44,7 @@ namespace safety_management
 
         public MySqlConnection SetConnection()
         {
-            string connectionString = $"Server={Ip};Port={Port};Database={Database};Uid={UserId};Pwd={Password};CharSet=utf8;";
+            string connectionString = $"Server={Ip};Port={Port};Database={Database};Uid={UserId};Pwd={Password};CharSet=utf8;SslMode=none;";
             connection = new MySqlConnection(connectionString);
             connection.Open();
             connection.Ping();
@@ -53,7 +53,7 @@ namespace safety_management
 
         public override string ToString()
         {
-            return $"Server={Ip};Port={Port};Database={Database};Uid={UserId};Pwd={Password};CharSet=utf8;";
+            return $"Server={Ip};Port={Port};Database={Database};Uid={UserId};Pwd={Password};CharSet=utf8;SslMode=none;";
         }
     }
 }

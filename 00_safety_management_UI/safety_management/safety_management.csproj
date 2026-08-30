@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="9.4.0" />
+    <PackageReference Include="MySqlConnector" Version="2.6.2" />
     <PackageReference Include="SerialPortStream" Version="2.4.2" />
     <PackageReference Include="System.IO.Ports" Version="9.0.7" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />

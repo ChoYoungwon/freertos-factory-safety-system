@@ -40,7 +40,7 @@
             // label1
             // 
             label1.Dock = DockStyle.Top;
-            label1.Font = new Font("굴림", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label1.Font = new Font("Gulim", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
             label1.Size = new Size(309, 77);
@@ -51,7 +51,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("굴림", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label2.Font = new Font("Gulim", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label2.Location = new Point(48, 90);
             label2.Name = "label2";
             label2.Size = new Size(51, 34);
@@ -61,7 +61,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("굴림", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label3.Font = new Font("Gulim", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label3.Location = new Point(48, 166);
             label3.Name = "label3";
             label3.Size = new Size(69, 34);
@@ -73,21 +73,21 @@
             tbx_ID.Location = new Point(122, 97);
             tbx_ID.Name = "tbx_ID";
             tbx_ID.Size = new Size(125, 27);
-            tbx_ID.TabIndex = 2;
+            tbx_ID.TabIndex = 0;
             // 
             // tbx_password
             // 
             tbx_password.Location = new Point(122, 173);
             tbx_password.Name = "tbx_password";
             tbx_password.Size = new Size(125, 27);
-            tbx_password.TabIndex = 2;
+            tbx_password.TabIndex = 1;
             // 
             // button1
             // 
             button1.Location = new Point(48, 243);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
-            button1.TabIndex = 3;
+            button1.TabIndex = 2;
             button1.Text = "회원가입";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -97,7 +97,7 @@
             button2.Location = new Point(153, 243);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
-            button2.TabIndex = 4;
+            button2.TabIndex = 3;
             button2.Text = "로그인";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;

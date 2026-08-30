@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,7 +93,7 @@ namespace safety_management
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error: {ex.Message}");
+                MessageBox.Show($"DB 초기 연결 실패: {ex.Message}\n\n{ex.StackTrace}", "DB 연결 오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

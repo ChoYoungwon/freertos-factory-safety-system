@@ -11,15 +11,15 @@ namespace safety_management
         private bool stop_state = false;
         private bool flame_state = false;
 
-        private readonly string warningImagePath = @"C:\Users\lka11\OneDrive\Desktop\SmartFactorySW\codes\Project\safety_management\fire_warning.png";
-        private readonly string normalImagePath = @"C:\Users\lka11\OneDrive\Desktop\SmartFactorySW\codes\Project\safety_management\normal.png";
-        private readonly string prohibitionImagePath = @"C:\Users\lka11\OneDrive\Desktop\SmartFactorySW\codes\Project\safety_management\prohibition.png";
+        private readonly string warningImagePath = @"..\images\fire_warning.png";
+        private readonly string normalImagePath = @"..\images\normal.png";
+        private readonly string prohibitionImagePath = @"..\images\prohibition.png";
 
         private Image WarningImage;
         private Image normalImage;
         private Image prohibitionImage;
 
-        private CancellationTokenSource cts;    // Àü¿ë ÀÐ±â ½º·¹µå
+        private CancellationTokenSource cts;    // ì „ìš© ì½ê¸° ìŠ¤ë ˆë“œ
 
         public Form1()
         {
@@ -33,13 +33,21 @@ namespace safety_management
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cbx_ports.DataSource = SerialPort.GetPortNames();
-            tbx_comState.ForeColor = Color.Red;
-            tbx_comState.Text = "Disconnected";
+            try
+            {
+                cbx_ports.DataSource = SerialPort.GetPortNames();
+                tbx_comState.ForeColor = Color.Red;
+                tbx_comState.Text = "Disconnected";
 
-            WarningImage = Image.FromFile(warningImagePath);
-            normalImage = Image.FromFile(normalImagePath);
-            prohibitionImage = Image.FromFile(prohibitionImagePath);
+                WarningImage = Image.FromFile(warningImagePath);
+                normalImage = Image.FromFile(normalImagePath);
+                prohibitionImage = Image.FromFile(prohibitionImagePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Form1 ì´ˆê¸° ì—°ê²° ì‹¤íŒ¨: {ex.Message}\n\n{ex.StackTrace}", "Form1 ì´ˆê¸° ì—°ê²° ì˜¤ë¥˜", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void btn_connect_Click(object sender, EventArgs e)
@@ -64,13 +72,13 @@ namespace safety_management
                     tbx_comState.ForeColor = Color.Green;
                     tbx_comState.Text = "Connected";
 
-                    // Àü¿ë ÀÐ±â ½º·¹µå ½ÃÀÛ
+                    // ì „ìš© ì½ê¸° ìŠ¤ë ˆë“œ ì‹œìž‘
                     cts = new CancellationTokenSource();
                     Task.Run(() => ReadSerialDataLoop(cts.Token));
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("½Ã¸®¾ó Æ÷Æ®¸¦ ¿­ ¼ö ¾ø½À´Ï´Ù.: " + ex.Message, "¿À·ù", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("ì‹œë¦¬ì–¼ í¬íŠ¸ë¥¼ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.: " + ex.Message, "ì˜¤ë¥˜", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     //serialPort1.DataReceived -= new SerialDataReceivedEventHandler(serialPort1_DataReceived);
                 }
 
@@ -82,31 +90,31 @@ namespace safety_management
             }
         }
 
-        // Àü¿ë ÀÐ±â ½º·¹µå
+        // ì „ìš© ì½ê¸° ìŠ¤ë ˆë“œ
         private void ReadSerialDataLoop(CancellationToken token)
         {
             while (!token.IsCancellationRequested && serialPort1.IsOpen)
             {
                 try
                 {
-                    // ReadLine()Àº °³Çà¹®ÀÚ¸¦ ¸¸³¯ ¶§±îÁö ½º·¹µå¸¦ Â÷´Ü
+                    // ReadLine()ì€ ê°œí–‰ë¬¸ìžë¥¼ ë§Œë‚  ë•Œê¹Œì§€ ìŠ¤ë ˆë“œë¥¼ ì°¨ë‹¨
                     string rxd = serialPort1.ReadLine().Trim();
-                    // ÀÐÀº µ¥ÀÌÅÍ Ã³¸®¸¦ º°µµ ¸Þ¼­µå¿¡ À§ÀÓ
+                    // ì½ì€ ë°ì´í„° ì²˜ë¦¬ë¥¼ ë³„ë„ ë©”ì„œë“œì— ìœ„ìž„
                     ProcessReceivedData(rxd);
                 }
-                catch (TimeoutException) { } // ReadTimeout ¹ß»ý ½Ã ¾Æ¹«°Íµµ ÇÏÁö ¾Ê°í °è¼Ó ÁøÇà
+                catch (TimeoutException) { } // ReadTimeout ë°œìƒ ì‹œ ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•Šê³  ê³„ì† ì§„í–‰
                 catch (Exception)
                 {
-                    // Æ÷Æ®°¡ ´ÝÈ÷°Å³ª ´Ù¸¥ ¿À·ù ¹ß»ý ½Ã ·çÇÁ Á¾·á
+                    // í¬íŠ¸ê°€ ë‹«ížˆê±°ë‚˜ ë‹¤ë¥¸ ì˜¤ë¥˜ ë°œìƒ ì‹œ ë£¨í”„ ì¢…ë£Œ
                     break;
                 }
             }
         }
 
-        // ÀÐÀº µ¥ÀÌÅÍ¸¦ Ã³¸®ÇÏ´Â ·ÎÁ÷
+        // ì½ì€ ë°ì´í„°ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë¡œì§
         private void ProcessReceivedData(string rxd)
         {
-            // emergency_stop ¸Þ½ÃÁö Ã³¸®
+            // emergency_stop ë©”ì‹œì§€ ì²˜ë¦¬
             if (rxd == "emergency_stop" && stop_state == false)
             {
                 this.BeginInvoke(new Action(() =>
@@ -120,13 +128,13 @@ namespace safety_management
 
             if (rxd == "flame" && flame_state == false)
             {
-                serialPort1.Write("stop");
+                //serialPort1.Write("stop");
                 this.BeginInvoke(new Action(() =>
                 {
                     flame_state = true;
-                    stop_state = true;
+                    //stop_state = true;
                     pictureBox1.Image = WarningImage;
-                    pictureBox2.Image = prohibitionImage;
+                    //pictureBox2.Image = prohibitionImage;
                     txb_recieve.AppendText(rxd + "\r\n");
                 }));
                 return;
@@ -142,7 +150,7 @@ namespace safety_management
                 return;
             }
 
-            // ¿Â½Àµµ µ¥ÀÌÅÍ Ã³¸®
+            // ì˜¨ìŠµë„ ë°ì´í„° ì²˜ë¦¬
             var match = Regex.Match(rxd, @"^(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)$");
             if (match.Success)
             {
@@ -154,11 +162,12 @@ namespace safety_management
                     txb_recieve.AppendText(rxd + "\r\n");
                     ChartAddData(humiData, tempData);
                     lbl_humi.Text = humiData.ToString() + "(%)";
-                    lbl_temp.Text = tempData.ToString() + "(¡É)";
+                    lbl_temp.Text = tempData.ToString() + "(â„ƒ)";
                 }));
-            } else
+            }
+            else
             {
-                // ±×¿Ü ¸ðµç ¸Þ½ÃÁö
+                // ê·¸ì™¸ ëª¨ë“  ë©”ì‹œì§€
                 this.BeginInvoke(new Action(() =>
                 {
                     txb_recieve.AppendText(rxd + "\r\n");
@@ -202,7 +211,7 @@ namespace safety_management
                 tbx_comState.ForeColor = Color.Red;
                 tbx_comState.Text = "Disconnected";
             }
-            
+
             if (cts != null)
             {
                 cts.Cancel();
@@ -214,10 +223,10 @@ namespace safety_management
         {
             if (serialPort1.IsOpen)
             {
-                // ÀÌº¥Æ® ÇÚµé·¯ ¿¬°á ÇØÁ¦ (Áß¿ä!)
+                // ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ì—°ê²° í•´ì œ (ì¤‘ìš”!)
                 //serialPort1.DataReceived -= new SerialDataReceivedEventHandler(serialPort1_DataReceived);
                 serialPort1.Close();
-                serialPort1.Dispose(); // SerialPort °´Ã¼ ¸®¼Ò½º ÇØÁ¦
+                serialPort1.Dispose(); // SerialPort ê°ì²´ ë¦¬ì†ŒìŠ¤ í•´ì œ
             }
 
             if (cts != null)
@@ -229,7 +238,7 @@ namespace safety_management
 
         private void btn_restart_Click(object sender, EventArgs e)
         {
-            if (stop_state == true && flame_state == false)
+            if (stop_state == true)
             {
                 this.BeginInvoke(new Action(() =>
                 {
@@ -237,9 +246,6 @@ namespace safety_management
                     pictureBox2.Image = normalImage;
                     serialPort1.Write("recover");
                 }));
-            } else
-            {
-                MessageBox.Show("fire situation");
             }
         }
 
@@ -250,8 +256,13 @@ namespace safety_management
             {
                 stop_state = true;
 
-                pictureBox2.Image = prohibitionImage; 
+                pictureBox2.Image = prohibitionImage;
             }));
+        }
+
+        private void cbx_ports_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

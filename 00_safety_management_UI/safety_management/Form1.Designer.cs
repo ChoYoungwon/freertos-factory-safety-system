@@ -74,7 +74,7 @@
             groupBox1.Controls.Add(chart2);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(lbl_temp);
-            groupBox1.Font = new Font("나눔고딕", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            groupBox1.Font = new Font("NanumGothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
             groupBox1.Location = new Point(327, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(353, 525);
@@ -85,7 +85,7 @@
             // lbl_humi
             // 
             lbl_humi.AutoSize = true;
-            lbl_humi.Font = new Font("나눔고딕", 13.7999992F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            lbl_humi.Font = new Font("NanumGothic", 13.7999992F, FontStyle.Bold, GraphicsUnit.Point, 129);
             lbl_humi.ForeColor = Color.Black;
             lbl_humi.Location = new Point(261, 392);
             lbl_humi.Name = "lbl_humi";
@@ -116,7 +116,7 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.FromArgb(224, 224, 224);
-            label2.Font = new Font("나눔고딕", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label2.Font = new Font("NanumGothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label2.Location = new Point(261, 357);
             label2.Name = "label2";
             label2.Size = new Size(84, 23);
@@ -145,7 +145,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.FromArgb(224, 224, 224);
-            label1.Font = new Font("나눔고딕", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label1.Font = new Font("NanumGothic", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label1.Location = new Point(261, 120);
             label1.Name = "label1";
             label1.Size = new Size(78, 23);
@@ -155,7 +155,7 @@
             // lbl_temp
             // 
             lbl_temp.AutoSize = true;
-            lbl_temp.Font = new Font("나눔고딕 ExtraBold", 13.7999992F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            lbl_temp.Font = new Font("NanumGothicExtraBold", 13.7999992F, FontStyle.Bold, GraphicsUnit.Point, 129);
             lbl_temp.ForeColor = Color.Black;
             lbl_temp.Location = new Point(261, 155);
             lbl_temp.Name = "lbl_temp";
@@ -167,7 +167,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(pictureBox2);
-            groupBox2.Font = new Font("나눔고딕", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            groupBox2.Font = new Font("NanumGothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
             groupBox2.Location = new Point(686, 249);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(310, 220);
@@ -188,7 +188,7 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(pictureBox1);
-            groupBox4.Font = new Font("나눔고딕", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            groupBox4.Font = new Font("NanumGothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
             groupBox4.Location = new Point(686, 12);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(310, 220);
@@ -208,7 +208,7 @@
             // 
             // btn_stop
             // 
-            btn_stop.Font = new Font("나눔고딕", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            btn_stop.Font = new Font("NanumGothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
             btn_stop.Location = new Point(686, 475);
             btn_stop.Name = "btn_stop";
             btn_stop.Size = new Size(150, 62);
@@ -219,7 +219,7 @@
             // 
             // btn_restart
             // 
-            btn_restart.Font = new Font("나눔고딕", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            btn_restart.Font = new Font("NanumGothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
             btn_restart.Location = new Point(846, 475);
             btn_restart.Name = "btn_restart";
             btn_restart.Size = new Size(150, 62);
@@ -240,7 +240,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("나눔고딕", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            label5.Font = new Font("NanumGothic", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 129);
             label5.Location = new Point(97, 12);
             label5.Name = "label5";
             label5.Size = new Size(119, 32);
@@ -250,7 +250,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("나눔고딕", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            label6.Font = new Font("NanumGothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
             label6.Location = new Point(40, 62);
             label6.Name = "label6";
             label6.Size = new Size(51, 20);
@@ -260,7 +260,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("나눔고딕", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            label7.Font = new Font("NanumGothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
             label7.Location = new Point(3, 94);
             label7.Name = "label7";
             label7.Size = new Size(88, 20);
@@ -281,6 +281,7 @@
             cbx_ports.Name = "cbx_ports";
             cbx_ports.Size = new Size(125, 28);
             cbx_ports.TabIndex = 15;
+            cbx_ports.SelectedIndexChanged += cbx_ports_SelectedIndexChanged;
             // 
             // btn_connect
             // 
@@ -305,7 +306,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("나눔고딕", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            label8.Font = new Font("NanumGothic", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 129);
             label8.Location = new Point(3, 146);
             label8.Name = "label8";
             label8.Size = new Size(94, 20);
