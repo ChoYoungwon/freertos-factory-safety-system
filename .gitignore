@@ -1,7 +1,6 @@
 .vs/
 *.suo
 *.user
-*.bak
 
 # Build and obj folders
 [Bb]in/

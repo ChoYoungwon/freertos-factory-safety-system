@@ -1,0 +1,224 @@
+#include <stdio.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <driver/gpio.h>
+
+#include <Arduino.h>
+#include <DHT.h>
+
+#define BUTTON_PIN 0
+#define LED_PIN 2
+#define DHT_PIN 4
+#define DHT_TYPE DHT11
+#define FLAME_PIN 34
+#define FLAME_TEST_PIN 32
+
+DHT dht(DHT_PIN, DHT_TYPE);
+
+bool stop_flag = false;
+bool flame_flag = false;
+TaskHandle_t dht_task_handle = NULL;
+TaskHandle_t flame_task_handle = NULL;
+
+void recover_task(void *pvParameter);
+
+volatile unsigned long t_press = 0;
+volatile bool btn_event = false;
+void IRAM_ATTR test_isr() {
+  if (t_press == 0) {
+    t_press = micros();
+    btn_event = true;
+  }
+}
+
+// 비상 정지 감지 Task (우선순위 10)
+void button_task(void *pvParameter)
+{
+  Serial.println("Button Task start");
+  int lastButtonState = HIGH;
+  
+  while(1) {
+    int buttonState = digitalRead(BUTTON_PIN);
+
+    // 1. 물리 버튼 눌림 감지 (HIGH -> LOW)
+    if (lastButtonState == HIGH && buttonState == LOW) {
+      stop_flag = true;
+      Serial.println("emergency_stop");
+    }
+    lastButtonState = buttonState; 
+
+    // 2. UI에서 보낸 시리얼 명령 감지
+    if (Serial.available()) {
+      String command = Serial.readStringUntil('\n');
+      command.trim();
+      Serial.println(command);
+
+      if (command == "stop") {
+        stop_flag = true;
+      }
+    }
+
+    // 3. 비상 정지 발생 시 즉각 타 태스크 종료 및 recover_task 생성
+    if (stop_flag == true) {
+      digitalWrite(LED_PIN, HIGH); // 즉시 핀 차단 및 LED 점등
+
+      if (flame_task_handle != NULL) {
+        vTaskDelete(flame_task_handle);
+        flame_task_handle = NULL;
+        Serial.println("Flame Task Killed immediately!");
+      }
+
+      if (dht_task_handle != NULL) {
+        vTaskDelete(dht_task_handle);
+        dht_task_handle = NULL;
+        Serial.println("DHT Task Killed immediately!");
+      }
+
+      xTaskCreate(&recover_task, "recover_task", 2048, NULL, 3, NULL);
+
+      unsigned long t_led = micros();
+      if (btn_event) {
+        float latency_ms = (t_led - t_press) / 1000.0;
+        Serial.printf("[RTOS Polling] Button Latency: %.3f ms\n", latency_ms); // C# UI 연동을 위해 Button Latency 포맷 유지
+        t_press = 0;
+        btn_event = false;
+      }
+
+      UBaseType_t stack_margin = uxTaskGetStackHighWaterMark(NULL); 
+      uint32_t free_heap = ESP.getFreeHeap();
+      Serial.printf("[Button Task] Stack Margin: %d bytes | System Free Heap: %d bytes\n", stack_margin, free_heap);
+
+      vTaskDelete(NULL); // button_task 종료 (이제 recover_task만 남음)
+    } 
+
+    vTaskDelay(20 / portTICK_PERIOD_MS); // 20ms 주기 폴링
+  }
+}
+
+// 온습도 감지 Task (우선순위 5)
+void dht_task(void *pvParameter)
+{
+  Serial.println("DHT11 Task start");
+  while(1) {
+    if (stop_flag == true) {
+      Serial.println("DHT11 Task End by emergency stop");
+      dht_task_handle = NULL;
+      vTaskDelete(NULL);
+    }
+    if (flame_flag == true) {
+      Serial.println("DHT11 Task End by flame");
+      dht_task_handle = NULL;
+      vTaskDelete(NULL);
+    }
+    float humidity = dht.readHumidity();
+    float temperature = dht.readTemperature();
+
+    if(isnan(humidity) || isnan(temperature)) {
+      Serial.println("DHT11 failed");
+    } else {
+      Serial.printf("%.1f,%.1f\n", humidity, temperature);
+    }
+
+    UBaseType_t stack_margin = uxTaskGetStackHighWaterMark(NULL); 
+    uint32_t free_heap = ESP.getFreeHeap();
+    Serial.printf("[DHT Task] Stack Margin: %d bytes | System Free Heap: %d bytes\n", stack_margin, free_heap);
+
+    vTaskDelay(2000 / portTICK_PERIOD_MS); // 2초마다 센서 읽기
+  }
+}
+
+// 화재 감지 Task Test버전 (버튼으로 구현) (우선순위 7)
+void flame_task_test(void *pvParameter){
+  Serial.println("flame Task start");
+  int lastFlameState = HIGH;
+  int flame_count = 0;
+
+  while(1) {
+    if (stop_flag == true) {
+      Serial.println("Flame Task End by emergency stop");
+      flame_task_handle = NULL;
+      vTaskDelete(NULL);
+    }
+    int FlameState = digitalRead(FLAME_TEST_PIN);
+
+    if (lastFlameState == HIGH && FlameState == LOW) {
+      flame_flag = true;
+      Serial.println("flame");
+    }
+    lastFlameState = FlameState; 
+
+    if (flame_flag) flame_count++;
+
+    if (flame_flag == true && flame_count > 50) {
+      flame_flag = false;
+      flame_count = 0;
+      Serial.println("noflame");
+
+      // dht_task 재생성 시 핸들 주소 전달
+      if (dht_task_handle == NULL) {
+        xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, &dht_task_handle);
+      }
+    }
+
+    vTaskDelay(200 / portTICK_PERIOD_MS); // 0.2초마다 센서 읽기
+  }
+}
+
+// 설비 재개 감지 코드
+void recover_task(void *pvParameter) {
+  digitalWrite(LED_PIN, HIGH);
+
+  while (1){
+    t_press = 0;
+    btn_event = false;
+
+    if (Serial.available()) {
+      String command = Serial.readStringUntil('\n');
+      command.trim();
+      Serial.println(command);
+      if (command == "recover") {
+        stop_flag = false;
+        digitalWrite(LED_PIN, LOW);
+
+        t_press = 0;
+        btn_event = false;
+
+        if (flame_task_handle == NULL) {
+          xTaskCreate(&flame_task_test, "Flame Task", 2048, NULL, 7, &flame_task_handle);
+        }
+        xTaskCreate(&button_task, "Button Task", 2048, NULL, 10, NULL);
+        if (dht_task_handle == NULL) {
+          xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, &dht_task_handle);
+        }
+        vTaskDelete(NULL);
+      }
+    }
+
+    vTaskDelay(500 / portTICK_PERIOD_MS); // 0.5초마다 검사
+  }
+}
+
+void setup()
+{
+    Serial.begin(115200);
+    Serial.println("Initializing system..\n");
+
+    pinMode(LED_PIN, OUTPUT);
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
+    pinMode(FLAME_TEST_PIN, INPUT_PULLUP);
+
+    analogSetAttenuation(ADC_11db);
+
+    dht.begin();
+    
+    // 측정용 인터럽트 등록
+    attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), test_isr, FALLING);
+
+    xTaskCreate(&flame_task_test, "Flame Task", 2048, NULL, 7, &flame_task_handle);
+    xTaskCreate(&button_task, "Button Task", 2048, NULL, 10, NULL);
+    xTaskCreate(&dht_task, "DHT Task", 2048, NULL, 5, &dht_task_handle);
+}
+
+void loop() {
+
+}
